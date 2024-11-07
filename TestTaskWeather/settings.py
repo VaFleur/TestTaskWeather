@@ -132,3 +132,9 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 #  Constance
 INSTALLED_APPS += ['constance', 'constance.backends.database']
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+CONSTANCE_CONFIG = {
+    'NEWS_RECIPIENTS': ([], 'Список адресатов для уведомлений о новостях', list),
+    'NEWS_EMAIL_SUBJECT': ('Новости за сегодня', 'Тема email'),
+    'NEWS_EMAIL_BODY': ('Сегодня опубликованы новые новости:', 'Текст сообщения'),
+    'NEWS_EMAIL_SEND_TIME': ('08:00', 'Время отправки сообщения'),
+}

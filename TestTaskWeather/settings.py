@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'news',
     'django_summernote',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [

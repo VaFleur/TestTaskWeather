@@ -1,6 +1,5 @@
 from django.db import models
-
-# Create your models here.
+from PIL import Image
 
 
 class News(models.Model):
@@ -13,6 +12,14 @@ class News(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+
+        if self.main_image and not self.preview_image:
+            img = Image.open(self.main_image.path)
+            img.thumbnail((200, 200))
+            preview_path = self.main_image.path.replace('news_images/', 'news_images/previews/')
+            img.save(preview_path)
+            self.preview_image = preview_path
+            super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title

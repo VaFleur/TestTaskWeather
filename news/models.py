@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.gis.db import models as gis_models
 from PIL import Image
 
 
@@ -23,3 +24,12 @@ class News(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Place(models.Model):
+    name = models.CharField(max_length=255)
+    coordinates = gis_models.PointField()
+    rating = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.name} (Рейтинг: {self.rating})"

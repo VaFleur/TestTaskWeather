@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'news',
     'django_summernote',
     'django_celery_beat',
+    'django.contrib.gis',
 ]
 
 MIDDLEWARE = [

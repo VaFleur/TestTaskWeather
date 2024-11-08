@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgis/postgis:15-3.4
+    container_name: my_postgres
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mygeodb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+
+volumes:
+  postgres_data:
+    driver: local

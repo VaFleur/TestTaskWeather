@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from celery.schedules import crontab
+from TestTaskWeather.celery import app
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -150,4 +152,10 @@ CONSTANCE_CONFIG = {
     'NEWS_EMAIL_SUBJECT': ('Новости за сегодня', 'Тема email'),
     'NEWS_EMAIL_BODY': ('Сегодня опубликованы новые новости:', 'Текст сообщения'),
     'NEWS_EMAIL_SEND_TIME': ('08:00', 'Время отправки сообщения'),
+    'WEATHER_FETCH_INTERVAL': (1, 'Интервал обновления погоды (в часах)', int),
+}
+
+app.conf.beat_schedule['fetch-weather-every-hour'] = {
+    'task': 'news.tasks.fetch_weather_data',
+    'schedule': crontab(minute=0, hour=f'*/{config.WEATHER_FETCH_INTERVAL}'),
 }

@@ -88,11 +88,11 @@ WSGI_APPLICATION = 'TestTaskWeather.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'your_db_name',
-        'USER': 'your_db_user',
-        'PASSWORD': 'your_db_password',
+        'NAME': 'mygeodb',
+        'USER': 'myuser',
+        'PASSWORD': 'mypassword',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '6000',
     }
 }
 

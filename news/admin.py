@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.http import HttpResponse
 from django_summernote.admin import SummernoteModelAdmin
 from .models import News, Place, WeatherReport
 from .utils import export_weather_to_xlsx
@@ -21,14 +22,17 @@ class PlaceAdmin(admin.ModelAdmin):
 class WeatherReportAdmin(admin.ModelAdmin):
     list_display = ('place', 'temperature', 'humidity', 'pressure', 'wind_speed', 'report_date')
     list_filter = ('place', 'report_date')
-    actions = ['export_selected']
+    actions = ['export_filtered']
 
-    def export_selected(self, request, queryset):
-        place = request.GET.get('place')
-        start_date = request.GET.get('start_date')
-        end_date = request.GET.get('end_date')
-        response = export_weather_to_xlsx(place, start_date, end_date)
-        return response
+    def export_filtered(self, request, queryset):
+        if queryset.exists():
+            response = HttpResponse(
+                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
+            response['Content-Disposition'] = 'attachment; filename=filtered_weather_reports.xlsx'
 
-    export_selected.short_description = "Экспортировать в xlsx"
+            return export_weather_to_xlsx(queryset=queryset, response=response)
+        else:
+            self.message_user(request, "Нет данных для экспорта", level='warning')
 
+    export_filtered.short_description = "Экспортировать в xlsx"

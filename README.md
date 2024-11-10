@@ -23,8 +23,8 @@
 
 1. Клонируйте репозиторий:
     ```bash
-    git clone <repository_url>
-    cd <repository_folder>
+    git clone https://github.com/VaFleur/TestTaskWeather
+    cd ./TestTaskWeather
     ```
 
 2. Запустите Docker-контейнеры:

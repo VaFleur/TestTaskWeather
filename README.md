@@ -29,17 +29,17 @@
 
 2. Запустите Docker-контейнеры:
     ```bash
-    docker-compose up --build
+    docker compose up --build
     ```
 
 3. Примените миграции:
     ```bash
-    docker-compose exec web python manage.py migrate
+    docker compose exec web python manage.py migrate
     ```
 
 4. Создайте суперпользователя:
     ```bash
-    docker-compose exec web python manage.py createsuperuser
+    docker compose exec web python manage.py createsuperuser
     ```
 
 5. Откройте приложение в браузере:
@@ -59,3 +59,19 @@
    ```
     python manage.py import_places path/to/your/file.xlsx
    ```
+## Экспорт сводки погоды в xlsx
+
+Вы можете экспортировать сводку погоды в xlsx-файл с фильтрацией по Примечательному месту и дате через специальный API-эндпоинт.
+   ```
+   GET http://localhost:8000/api/export-weather/?place=<Название_места>&start_date=YYYY-MM-DD&end_date=YYYY-MM-DD
+   ```
+
+- place (необязательно): Название Примечательного места, по которому будет происходить фильтрация.
+- start_date (необязательно): Дата начала диапазона (включительно), формат YYYY-MM-DD.
+- end_date (необязательно): Дата окончания диапазона (включительно), формат YYYY-MM-DD.
+
+Пример:
+   ```
+   http://localhost:8000/api/export-weather/?place=Красноярск&start_date=2024-01-01&end_date=2024-11-30
+   ```
+После выполнения запроса, вы получите файл weather_report.xlsx с отфильтрованными данными.

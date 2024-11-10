@@ -95,8 +95,8 @@ DATABASES = {
         'NAME': 'mygeodb',
         'USER': 'myuser',
         'PASSWORD': 'mypassword',
-        'HOST': 'localhost',
-        'PORT': '8001',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -143,8 +143,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #  Celery
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 
 #  Constance
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'

@@ -11,6 +11,7 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - redis
 
   db:
     image: postgis/postgis:15-3.4
@@ -24,6 +25,14 @@ services:
     ports:
       - "8001:5432"
 
+  redis:
+    image: redis:7.0-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
   celery:
     build: .
     command: celery -A TestTaskWeather worker -l info
@@ -31,6 +40,7 @@ services:
       - .:/app
     depends_on:
       - db
+      - redis
     env_file: .env
 
   beat:
@@ -40,8 +50,11 @@ services:
       - .:/app
     depends_on:
       - db
+      - redis
     env_file: .env
 
 volumes:
   postgres_data:
+    driver: local
+  redis_data:
     driver: local

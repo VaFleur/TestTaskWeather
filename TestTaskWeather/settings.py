@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import constance.admin
 from celery.schedules import crontab
 from TestTaskWeather.celery import app
 
@@ -44,6 +45,8 @@ INSTALLED_APPS = [
     'django_summernote',
     'django_celery_beat',
     'django.contrib.gis',
+    'constance',
+    'constance.backends.database',
 ]
 
 MIDDLEWARE = [
@@ -94,7 +97,7 @@ DATABASES = {
         'USER': 'myuser',
         'PASSWORD': 'mypassword',
         'HOST': 'localhost',
-        'PORT': '6000',
+        'PORT': '8001',
     }
 }
 
@@ -145,7 +148,6 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
 #  Constance
-INSTALLED_APPS += ['constance', 'constance.backends.database']
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
 CONSTANCE_CONFIG = {
     'NEWS_RECIPIENTS': ([], 'Список адресатов для уведомлений о новостях', list),
@@ -153,9 +155,4 @@ CONSTANCE_CONFIG = {
     'NEWS_EMAIL_BODY': ('Сегодня опубликованы новые новости:', 'Текст сообщения'),
     'NEWS_EMAIL_SEND_TIME': ('08:00', 'Время отправки сообщения'),
     'WEATHER_FETCH_INTERVAL': (1, 'Интервал обновления погоды (в часах)', int),
-}
-
-app.conf.beat_schedule['fetch-weather-every-hour'] = {
-    'task': 'news.tasks.fetch_weather_data',
-    'schedule': crontab(minute=0, hour=f'*/{config.WEATHER_FETCH_INTERVAL}'),
 }

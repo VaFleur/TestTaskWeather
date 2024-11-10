@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-import constance.admin
 from celery.schedules import crontab
 from TestTaskWeather.celery import app
 
